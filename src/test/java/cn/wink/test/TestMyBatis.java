@@ -129,7 +129,10 @@ public class TestMyBatis {
         //关闭session
         sqlSession.close();
     }
-
+    //
+    public void test(){
+        System.out.println("23");
+    }
 
 
 
