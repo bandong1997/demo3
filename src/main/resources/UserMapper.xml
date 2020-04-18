@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+    <!--
+        namespace:名称空间
+        parameterType：输入映射，输入参数的类型
+        resultType：输出映射,结果类型
+        #{}：占位符
+    -->
+<mapper namespace="UserMapper">
+    <!--根据id查询用户信息-->
+    <select id="findUserById" parameterType="int" resultType="cn.wink.pojo.User" >
+        select * from tab_user where id = #{id}
+    </select>
+    <!--添加用户-->
+    <insert id="insertUser" parameterType="cn.wink.pojo.User" >
+        insert into tab_user(username, password, sex, address)
+        values (#{username},#{password},#{sex},#{address})
+    </insert>
+    <!--根据id删除-->
+    <delete id="deleteUserById" parameterType="int">
+        delete from tab_user where id = #{id}
+    </delete>
+    <!--修改-->
+    <update id="updateUserById" parameterType="cn.wink.pojo.User">
+        update tab_user set username = #{username},password = #{password},sex = #{sex},address = #{address}
+        where id = #{id}
+    </update>
+    <!--根据用户名模糊查询-->
+    <select id="findUserByNameOrLike" parameterType="string" resultType="cn.wink.pojo.User">
+        <!--select * from tab_user where username like #{username} -->
+        <!--select * from tab_user where username like "%"#{username}"%" -->
+        select * from tab_user where username like '%${value}%'
+
+    </select>
+</mapper>
