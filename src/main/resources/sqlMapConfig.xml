@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+    <!--
+        mybatis核心配置文件：
+        transactionManager：事务
+        dataSource：数据源
+    -->
+    <!--
+        properties	          属性
+        settings	            设置
+        typeAliases	          类型别名
+        typeHandlers	        类型处理器
+        objectFactory	        对象工厂
+        plugins	              插件
+        environments	        环境集合属性对象
+        environment	            环境子属性对象
+        transactionManager	    事务管理器
+        dataSource	            数据源
+        databaseldProvider	    数据库厂商标识
+        mappers	              映射器
+        注意:Mybatis按照上面的顺序来加载属性
+    -->
+<configuration>
+    <!--加载jdbc配置文件-->
+    <properties resource="jdbc.properties"/>
+    <!--类型别名-->
+    <typeAliases>
+        <!--配置单个别名-->
+        <typeAlias type="cn.wink.pojo.User" alias="user"/>
+        <!--批量配置别名-->
+        <!--<package name="cn.wink.pojo"/>-->
+    </typeAliases>
+    <!--环境集合属性对象-->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+                <!--<property name="driver" value="com.mysql.jdbc.Driver"/>-->
+                <!--<property name="url" value="jdbc:mysql://localhost:3306/mybatis01"/>-->
+                <!--<property name="username" value="root"/>-->
+                <!--<property name="password" value="root"/>-->
+            </dataSource>
+        </environment>
+    </environments>
+    <!--加载mapper文件-->
+    <mappers>
+        <!--相对路径-->
+        <!--<mapper resource="cn/wink/mapper/UserMapper.xml"/>-->
+        <!--使用mapper接口类路径:接口和映射文件的名字要保持一致;接口和映射文件要放到同一个目录-->
+        <mapper class="cn.wink.mapper.UserMapper"/>
+        <!--指定包下所有mapper接口:接口和映射文件的名字要保持一致;接口和映射文件要放到同一个目录-->
+        <!--<package name="cn.hp.dao"/>-->
+
+    </mappers>
+</configuration>
+
