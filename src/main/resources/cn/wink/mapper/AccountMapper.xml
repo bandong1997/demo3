@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+    namespace:名称空间
+    parameterType：输入映射，输入参数的类型
+    resultType：输出映射,结果类型
+    #{}：占位符
+-->
+<mapper namespace="cn.wink.mapper.AccountMapper">
+    <!--查询所有用户-->
+    <select id="findAll" resultType="account">
+        select * from tab_account
+    </select>
+    <!--
+        查询所有用户并且查询账户对应的用户信息查询出来
+        解决方案：1.创建新的pojo类，让其里面包含这两个实体的属性
+    -->
+    <select id="findAll1" resultType="userAndAccount">
+        select * from tab_account a,tab_user u where a.uid = u.id
+    </select>
+    <!--2.方案二：配置映射文件，通过resultMap做映射-->
+    <resultMap id="accountMap1" type="account">
+        <id property="aid" column="aid" />
+        <result property="name" column="name" />
+        <result property="money" column="money" />
+        <result property="uid" column="uid" />
+        <!--映射user的属性-->
+        <result property="user.id" column="id"/>
+        <result property="user.username" column="username"/>
+        <result property="user.password" column="password"/>
+        <result property="user.sex" column="sex"/>
+        <result property="user.address" column="address"/>
+    </resultMap>
+    <select id="findAll2" resultMap="accountMap1">
+        select * from tab_account a,tab_user u where a.uid = u.id
+    </select>
+    <!--方案三：配置映射文件2，通过resultMap做映射-->
+    <resultMap id="accountMap2" type="account">
+        <id property="aid" column="aid" />
+        <result property="name" column="name" />
+        <result property="money" column="money" />
+        <result property="uid" column="uid" />
+        <!--
+            映射user的属性
+
+            association:映射单个对象
+            property: 属性名
+            javaType:属性对应的类型
+        -->
+        <association property="user" javaType="user">
+            <id property="id" column="id"/>
+            <result property="username" column="username"/>
+            <result property="password" column="password"/>
+            <result property="sex" column="sex"/>
+            <result property="address" column="address"/>
+        </association>
+    </resultMap>
+    <select id="findAll3" resultMap="accountMap2">
+         select * from tab_account a,tab_user u where a.uid = u.id
+    </select>
+</mapper>

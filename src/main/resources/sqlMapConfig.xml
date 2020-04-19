@@ -53,9 +53,9 @@
         <!--相对路径-->
         <!--<mapper resource="cn/wink/mapper/UserMapper.xml"/>-->
         <!--使用mapper接口类路径:接口和映射文件的名字要保持一致;接口和映射文件要放到同一个目录-->
-        <mapper class="cn.wink.mapper.UserMapper"/>
+        <!--<mapper class="cn.wink.mapper.UserMapper"/>-->
         <!--指定包下所有mapper接口:接口和映射文件的名字要保持一致;接口和映射文件要放到同一个目录-->
-        <!--<package name="cn.hp.dao"/>-->
+        <package name="cn.wink.mapper"/>
 
     </mappers>
 </configuration>

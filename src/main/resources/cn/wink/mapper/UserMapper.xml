@@ -44,4 +44,91 @@
     <select id="findResultMap1" parameterType="int"  resultMap="userResultMap">
         SELECT * FROM tab_user_copy where id = #{id}
     </select>
+    <!--
+     动态sql
+    -->
+    <!--sql片段 将重复的sql语句提取出来,使用incliude标签引用,达到sql语句重用的目的-->
+    <sql id="tb_user">
+        select * from tab_user
+    </sql>
+    <!--if和where标签-->
+    <select id="findByUser" parameterType="user" resultType="user">
+        <include refid="tb_user"/>
+        <where><!--where 标签:去除第一个and或者or-->
+            <if test="username != null and username != ''">
+                and username like "%"#{username}"%"
+            </if>
+            <if test="sex != null  and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="address != null and address !=''">
+                and address = #{address}
+            </if>
+        </where>
+    </select>
+    <!--foreach标签:对一个集合进行遍历,通常是在构建in条件语句的时候-->
+    <select id="findUserByIdIn" parameterType="list" resultType="user">
+        <!--SELECT * FROM tab_user WHERE id IN(29,30)-->
+        <include refid="tb_user"/>
+        <where>
+            id in
+            <foreach collection="list" open="(" separator="," close=")" item="id">
+                <!--
+                  collection:参数的类型,如果是集合:list 如果是数组:array
+                  open:前缀
+                  close:后缀
+                  separator:分隔符
+                  item:循环数据的临时变量
+                  index:循环中的索引,一般不用
+                 -->
+                #{id}
+            </foreach>
+        </where>
+
+    </select>
+    <select id="findUserByIdIn1" parameterType="queryVo" resultType="user">
+        <include refid="tb_user"/>
+        <where>
+            id in
+            <foreach collection="ids" open="(" separator="," close=")" item="id">
+                <!--
+                  collection:参数的类型,如果是集合:list 如果是数组:array
+                  open:前缀
+                  close:后缀
+                  separator:分隔符
+                  item:循环数据的临时变量
+                  index:循环中的索引,一般不用
+                 -->
+                #{id}
+            </foreach>
+        </where>
+    </select>
+    <!--
+        一对多
+        查询所有用户并把有关联的一并查询
+     -->
+    <resultMap id="AllUserAccount" type="user">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="sex" column="sex"/>
+        <result property="address" column="address"/>
+        <!--
+            配置accounts属性
+
+            collection:配置多个对象
+            property:对应的属性名
+            ofType:集合中的元素类型
+        -->
+        <collection property="accounts" ofType="account">
+            <id property="aid" column="aid" />
+            <result property="name" column="name" />
+            <result property="money" column="money" />
+            <result property="uid" column="uid" />
+        </collection>
+
+    </resultMap>
+    <select id="findAllUserAccount" resultMap="AllUserAccount">
+        SELECT * FROM tab_user u LEFT JOIN tab_account a on u.id = a.uid
+    </select>
 </mapper>

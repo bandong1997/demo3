@@ -1,38 +1,35 @@
 package cn.wink.pojo;
 
-import java.util.List;
-
 /**
  * @author INS
- * @create 2020-04-17 20:59
+ * @create 2020-04-19 18:10
  */
-public class User {
+public class UserAndAccount {
+    //用户
     private int id;
     private String username;
     private String password;
     private String sex;
     private String address;
-    //一个用户有多个银行账户
-    private List<Account> accounts;
+    //账户
+    private int aid;
+    private String name;
+    private float money;
+    private int uid;
 
     @Override
     public String toString() {
-        return "User{" +
+        return "UserAndAccount{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", sex='" + sex + '\'' +
                 ", address='" + address + '\'' +
-                ", accounts=" + accounts +
+                ", aid=" + aid +
+                ", name='" + name + '\'' +
+                ", money=" + money +
+                ", uid=" + uid +
                 '}';
-    }
-
-    public List<Account> getAccounts() {
-        return accounts;
-    }
-
-    public void setAccounts(List<Account> accounts) {
-        this.accounts = accounts;
     }
 
     public int getId() {
@@ -75,15 +72,35 @@ public class User {
         this.address = address;
     }
 
-    public User() {
-        super();
+    public int getAid() {
+        return aid;
     }
 
-    public User(int id, String username, String password, String sex, String address) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.sex = sex;
-        this.address = address;
+    public void setAid(int aid) {
+        this.aid = aid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public float getMoney() {
+        return money;
+    }
+
+    public void setMoney(float money) {
+        this.money = money;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 }
