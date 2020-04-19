@@ -17,4 +17,31 @@
     <select id="findAll" resultType="user">
         select * from tab_user
     </select>
+    <!--输入映射是Map类型-->
+    <select id="findUserByMap" parameterType="map" resultType="user">
+        select * from tab_user where username like "%"#{username}"%" and sex = #{sex} and address = #{address}
+    </select>
+    <!--输入类型是包装POJO-->
+    <select id="findByQueryVo" parameterType="queryVo" resultType="user">
+        select * from tab_user where username like '%${user.username}%'
+    </select>
+    <!--输出类型是基础数据诶性(基本数据类型和String类型)-->
+    <select id="findCount" resultType="int">
+        SELECT COUNT(*) FROM tab_user
+    </select>
+    <!--输出类型是Map类型-->
+    <select id="findResultMap" parameterType="int" resultType="map">
+        SELECT * FROM tab_user where id = #{id}
+    </select>
+    <!--resultMap手动配置列和属性的映射 一样的可以不写但是为了看着容易理解建议写上-->
+    <resultMap id="userResultMap" type="user">
+        <id property="id" column="id"/>
+        <result property="username" column="user_name"/>
+        <result property="password" column="password"/>
+        <result property="sex" column="gender"/>
+        <result property="address" column="address"/>
+    </resultMap>
+    <select id="findResultMap1" parameterType="int"  resultMap="userResultMap">
+        SELECT * FROM tab_user_copy where id = #{id}
+    </select>
 </mapper>

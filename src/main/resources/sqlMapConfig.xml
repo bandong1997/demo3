@@ -28,9 +28,9 @@
     <!--类型别名-->
     <typeAliases>
         <!--配置单个别名-->
-        <typeAlias type="cn.wink.pojo.User" alias="user"/>
+        <!--<typeAlias type="cn.wink.pojo.User" alias="user"/>-->
         <!--批量配置别名-->
-        <!--<package name="cn.wink.pojo"/>-->
+        <package name="cn.wink.pojo"/>
     </typeAliases>
     <!--环境集合属性对象-->
     <environments default="development">
