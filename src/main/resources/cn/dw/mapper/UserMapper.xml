@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+    <!--
+        namespace:名称空间
+        parameterType：输入映射，输入参数的类型
+        resultType：输出映射,结果类型
+        #{}：占位符
+    -->
+<mapper namespace="cn.dw.mapper.UserMapper">
+
+    <!--查询所有用户信息并把用户所关联的角色查询出来-->
+    <resultMap id="findUserAllAndRoleAll" type="user">
+        <id property="uid" column="uid"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <collection property="roles" ofType="role">
+            <id property="rid" column="rid"/>
+            <result property="rolename" column="rolename"/>
+            <result property="roledesc" column="roledesc"/>
+        </collection>
+    </resultMap>
+    <select id="findUserAllAndRoleAll" resultMap="findUserAllAndRoleAll">
+        SELECT u.*,r.* FROM user u
+        LEFT JOIN user_role ur on u.uid = ur.uid
+        LEFT JOIN role r on ur.rid = r.rid
+    </select>
+</mapper>
